@@ -4,7 +4,6 @@ import Places from '../Places/Places';
 import NewsSlider from '../NewsSlider/NewsSlider';
 import FeedBack from '../FeedBack/FeedBack';
 import Subscribe from '../Subscribe/Subscribe';
-import axios from 'axios';
 
 function Home() {
   return (

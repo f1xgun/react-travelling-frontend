@@ -10,7 +10,6 @@ const Admin = observer(() => {
   const { hotel } = useContext(Context);
   const [modalCity, setModalCity] = useState(false);
   const [modalHotel, setModalHotel] = useState(false);
-  const [info, setInfo] = useState([]);
   const [value, setValue] = useState('');
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -20,13 +19,6 @@ const Admin = observer(() => {
   useEffect(() => {
     fetchCities().then((data) => hotel.setCities(data));
   }, []);
-
-  const addInfo = () => {
-    setInfo([...info, { title: '', description: '', number: Date.now() }]);
-  };
-  const removeInfo = (number) => {
-    setInfo(info.filter((i) => i.number !== number));
-  };
 
   const addCity = () => {
     createCity({ name: value }).then((data) => {
@@ -47,6 +39,17 @@ const Admin = observer(() => {
     formData.append('cityId', hotel.selectedCity.id);
     createHotel(formData).then((data) => setModalHotel(false));
   };
+  const clearCity = () => {
+    setValue('');
+    setModalCity(false);
+  };
+  const clearHotel = () => {
+    setName('');
+    setPrice('');
+    setFile('');
+    setCity('');
+    setModalHotel(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -57,7 +60,7 @@ const Admin = observer(() => {
         Добавить отель
       </button>
 
-      <Modal active={modalCity} setActive={setModalCity}>
+      <Modal active={modalCity} setActive={setModalCity} className={styles.modalCity}>
         <h2 className={styles.modalTitle}>Добавить город</h2>
         <input
           placeholder="Введите название города"
@@ -68,7 +71,7 @@ const Admin = observer(() => {
           <button className={styles.btn} onClick={addCity}>
             Добавить
           </button>
-          <button className={styles.btn} onClick={() => setModalCity(false)}>
+          <button className={styles.btn} onClick={() => clearCity()}>
             Закрыть
           </button>
         </div>
@@ -95,17 +98,13 @@ const Admin = observer(() => {
             setSelected={setCity}
             setSelectedCity={hotel.setSelectedCity}
           />
-          <button onClick={addInfo}>Добавить новое свойство</button>
-          {info.map((i) => (
-            <div></div>
-          ))}
         </form>
 
         <div className={styles.modalFooter}>
           <button className={styles.btn} onClick={addHotel}>
             Добавить
           </button>
-          <button className={styles.btn} onClick={() => setModalHotel(false)}>
+          <button className={styles.btn} onClick={() => clearHotel()}>
             Закрыть
           </button>
         </div>

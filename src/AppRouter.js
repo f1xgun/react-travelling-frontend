@@ -9,7 +9,6 @@ import { Context } from ".";
 function AppRouter() {
   const {user} = useContext(Context)
 
-  console.log(user)
   return (
     <Router>
       <div>
